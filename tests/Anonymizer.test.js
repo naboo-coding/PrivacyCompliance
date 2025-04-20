@@ -1,4 +1,4 @@
-const Anonymizer = require('./Anonymizer');
+const Anonymizer = require('../lib/anonymization/Anonymizer');
 
 describe('Anonymizer Module', () => {
   let anonymizer;

@@ -1,0 +1,8 @@
+node_modules/
+
+.env.production
+.env.development
+.env.test
+
+/data/*
+!/data/.gitkeep

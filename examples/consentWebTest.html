@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ConsentForm Web Test</title>
+</head>
+<body>
+  <h1>ConsentForm Web Test</h1>
+  <button id="show-consent">Show Consent Form</button>
+  <div id="result"></div>
+  <script>
+    // Placeholder: In a real browser build, ConsentForm would be imported from a browser bundle
+    // For now, we define a minimal mock to demonstrate the UI logic
+    class ConsentForm {
+      static showDefaultConsentForm() {
+        return new Promise((resolve) => {
+          // Web implementation: show a modal/popup
+          const modal = document.createElement('div');
+          modal.style.position = 'fixed';
+          modal.style.top = '0';
+          modal.style.left = '0';
+          modal.style.width = '100vw';
+          modal.style.height = '100vh';
+          modal.style.background = 'rgba(0,0,0,0.5)';
+          modal.style.display = 'flex';
+          modal.style.alignItems = 'center';
+          modal.style.justifyContent = 'center';
+          modal.style.zIndex = '9999';
+          modal.innerHTML = `
+            <div style="background: white; padding: 2em; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.2); text-align: center;">
+              <h2>Consent Required</h2>
+              <p>Do you accept?</p>
+              <button id="consent-accept" style="margin: 0 1em;">Accept</button>
+              <button id="consent-reject" style="margin: 0 1em;">Reject</button>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          document.getElementById('consent-accept').onclick = () => {
+            document.body.removeChild(modal);
+            resolve(true);
+          };
+          document.getElementById('consent-reject').onclick = () => {
+            document.body.removeChild(modal);
+            resolve(false);
+          };
+        });
+      }
+    }
+    document.getElementById('show-consent').onclick = async () => {
+      const accepted = await ConsentForm.showDefaultConsentForm();
+      document.getElementById('result').textContent = accepted ? 'User accepted consent.' : 'User rejected consent.';
+    };
+  </script>
+  <p style="margin-top:2em;color:#888;font-size:0.9em;">Note: This is a standalone browser test. For real integration, bundle ConsentForm.js for the browser or use a browser-compatible build.</p>
+</body>
+</html> 

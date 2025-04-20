@@ -8,48 +8,33 @@
 > **⚠️ DISCLAIMER:**
 > This library is provided for educational and compliance support purposes only. It does not constitute legal advice. The authors are not responsible for any misuse or failure to comply with applicable privacy laws and regulations. Always consult with a qualified legal professional for compliance matters.
 
-## Why Choose Privacy Compliance Library?
+---
 
-- **Purpose-Built for Privacy Compliance:** Designed for organizations, developers, and privacy professionals seeking robust tools to manage user consent, data subject requests (DSARs), and data anonymization in line with global privacy regulations (GDPR, CCPA, etc.).
-- **Risk-Free Integration:** All operations are implemented with a focus on user safety, transparency, and compliance best practices.
-- **Modular & Extensible:** Easily integrate consent management, DSAR handling, anonymization, and logging into your existing applications.
-- **Comprehensive Observability:** Built-in logging and secure storage provide visibility and auditability for compliance workflows.
-- **Configurable & Adaptable:** Supports customizable anonymization strategies and flexible integration for both frontend (JavaScript) and backend (Java) environments.
+## Feature Overview
 
-## Key Features
-
-- **Consent Management:** Display, store, and retrieve user consent for various data processing purposes.
-- **DSAR Handling:** Manage Data Subject Access Requests, including access, correction, deletion, and action logging.
+- **Consent Management:** Display, store, retrieve, and revoke user consent for various data processing purposes.
+- **DSAR Handling:** Manage Data Subject Access Requests (DSARs), including access, correction, deletion, and action logging.
 - **Data Anonymization:** Anonymize and pseudonymize user data fields with configurable strategies.
-- **Comprehensive Logging:** Log data processing activities, retrieve logs, and configure secure log storage.
-- **Multi-Platform Support:** Integrate seamlessly with both JavaScript (frontend/backend) and Java (backend) applications.
-- **Configurable Anonymization:** Easily set anonymization strategies and parameters to fit your compliance needs.
+- **Comprehensive Logging & Audit Trail:** Log data processing activities, retrieve logs, and maintain an audit trail for compliance.
+- **Breach Notification:** Log and simulate admin notification of data breaches.
+- **REST API:** Expose endpoints for consent management, audit retrieval, and breach notification.
+- **Extensible:** Register custom anonymization and consent strategies at runtime.
+- **JavaScript Only:** Works in Node.js and browser environments (with bundling; see Advanced Usage).
+
+---
 
 ## Installation
-
-### JavaScript
 
 Install via npm:
 ```sh
 npm install privacy-lib
 ```
 
-### Java
+---
 
-Add the following dependency to your Maven `pom.xml`:
-```xml
-<dependency>
-  <groupId>com.privacy</groupId>
-  <artifactId>privacy-lib</artifactId>
-  <version>1.0.0</version>
-</dependency>
-```
+## Usage & Examples
 
-## Quick Start
-
-### JavaScript Example
-
-The following example demonstrates how to use the main features of the Privacy Compliance library in a JavaScript application:
+### Quick Start
 
 ```js
 import { showConsentForm, storeConsent, getConsentStatus } from 'privacy-lib/consent';
@@ -57,7 +42,7 @@ import { requestDataAccess, requestDataCorrection, requestDataDeletion } from 'p
 import { anonymizeField, configureAnonymization } from 'privacy-lib/anonymization';
 import { logDataProcessing, getLogs } from 'privacy-lib/logging';
 
-// Show consent form
+// Show consent form (UI integration required; see below)
 showConsentForm({ purposes: ['analytics', 'marketing'] });
 
 // Store user consent
@@ -84,132 +69,219 @@ const logs = getLogs({ userId: 'user123' });
 console.log(logs);
 ```
 
-### Java Example
+### Consent UI Integration
 
-This example shows how to use the library's core features in a Java backend service:
+The `showConsentForm` method is a placeholder. You must implement your own UI and call the provided callbacks. For a web app, display a modal or popup; for CLI, prompt in the terminal. See [Consent UI Integration Details](#consent-ui-integration-details) for more.
 
-```java
-import com.privacy.consent.ConsentForm;
-import com.privacy.dsar.DSARManager;
-import com.privacy.anonymization.Anonymizer;
-import com.privacy.logging.Logger;
+### Example Scripts
 
-// Show consent form
-ConsentForm.showConsentForm(new ConsentOptions(Arrays.asList("analytics", "marketing")));
+- `examples/realDeveloperExample.js`: Comprehensive usage (consent, DSAR, anonymization)
+- `examples/breachNotificationExample.js`: Breach notification workflow
+- `examples/auditTrailExample.js`: Audit trail logging and retrieval
+- `examples/anonymizationExample.js`: Anonymization strategies
+- `examples/batchOperationsExample.js`: Batch operations
+- `examples/errorHandlingExample.js`: Error handling patterns
+- `examples/consentWebTest.html`: UI logic demonstration (browser)
 
-// Store user consent
-ConsentForm.storeConsent("user123", Map.of("analytics", true, "marketing", false));
-
-// Get consent status
-boolean status = ConsentForm.getConsentStatus("user123", "analytics");
-System.out.println("Consent for analytics: " + status);
-
-// Request data access
-DSARManager.requestDataAccess("user123");
-
-// Anonymize email field
-Map<String, Object> anonData = Anonymizer.anonymizeField(Map.of("email", "user@email.com"), "email");
-
-// Configure anonymization
-Anonymizer.configureAnonymization(Map.of("strategy", "hash", "salt", "somesalt"));
-
-// Log a data processing activity
-Logger.logDataProcessing("User login", Map.of("userId", "user123"));
-
-// Retrieve logs
-List<LogEntry> logs = Logger.getLogs(Map.of("userId", "user123"));
-System.out.println(logs);
+To run an example:
+```sh
+node examples/realDeveloperExample.js
 ```
+
+---
 
 ## Configuration
 
-You can configure anonymization strategies and parameters to fit your compliance requirements. The following examples show how to set up anonymization in both JavaScript and Java:
-
-### JavaScript
+Configure anonymization strategies and parameters to fit your compliance requirements:
 
 ```js
 import { configureAnonymization } from 'privacy-lib/anonymization';
 
 configureAnonymization({
-  strategy: 'hash', // or 'pseudonymize', 'mask', etc.
+  strategy: 'hash', // Available: 'hash', 'pseudonymize', 'mask', 'reverse', etc.
   salt: 'somesalt',
 });
 ```
 
-### Java
-
-```java
-import com.privacy.anonymization.Anonymizer;
-
-Anonymizer.configureAnonymization(Map.of(
-  "strategy", "hash", // or "pseudonymize", "mask", etc.
-  "salt", "somesalt"
-));
-```
-
 Refer to the documentation for all available strategies and configuration options.
 
-## Dynamic Registration
+---
 
-Dynamic registration of new consent, DSAR, or anonymization strategies at runtime is not currently supported. If you require extensibility or wish to contribute such features, please see the Contributing section below.
+## API Reference
 
-## Logging & Telemetry
+### Consent Management
+- `showConsentForm(options)` — Display consent form (UI integration required)
+- `storeConsent(userId, preferences)` — Store user consent
+- `getConsentStatus(userId, purpose)` — Retrieve consent status
+- `withdrawConsent(userId, purposes)` — Revoke consent (all or specific purposes)
 
-The Privacy Compliance library provides built-in logging for data processing activities, supporting secure storage and auditability.
+### DSAR Management
+- `requestDataAccess(userId)` — Retrieve user data
+- `requestDataCorrection(userId, fields)` — Update user data
+- `requestDataDeletion(userId)` — Delete user data
+- `logDSARAction(userId, actionType)` — Log DSAR action
 
-### JavaScript
+### Anonymization
+- `configureAnonymization(options)` — Set anonymization config
+- `anonymizeField(data, fieldName, options)` — Anonymize a field
+- `pseudonymizeField(data, fieldName, options)` — Pseudonymize a field
+- `registerStrategy(name, fn)` — Register custom anonymization strategy
+
+### Logging, Audit, and Breach Notification
+- `logDataProcessing(action, details)` — Log data processing activity
+- `getLogs(filter)` — Retrieve logs
+- `logAudit(action, userId, details)` — Log audit trail entry
+- `notifyBreach(details)` — Log and notify of a data breach
+
+### REST API
+- `POST /api/consent` — Store consent
+- `GET /api/consent/:userId` — Retrieve consent
+- `DELETE /api/consent/:userId` — Revoke consent
+- `GET /api/consent/audit` — Retrieve audit trail
+- `POST /api/consent/breach` — Trigger breach notification
+
+### Error Handling
+- Custom errors (e.g., `ValidationError`) are thrown for invalid input. Use try/catch to handle errors in your integration.
+
+---
+
+## How to Extend
+
+You can register your own anonymization or consent strategies at runtime:
 
 ```js
-import { logDataProcessing, getLogs, secureLogStorage } from 'privacy-lib/logging';
-
-// Log a data processing activity
-logDataProcessing('User login', { userId: 'user123' });
-
-// Retrieve logs
-const logs = getLogs({ userId: 'user123' });
-console.log(logs);
-
-// Configure secure log storage
-secureLogStorage({ encryption: true });
+const Anonymizer = require('./src/anonymization/Anonymizer');
+Anonymizer.registerStrategy('reverse', (value, options) => {
+  return typeof value === 'string' ? value.split('').reverse().join('') : value;
+});
 ```
 
-### Java
-
-```java
-import com.privacy.logging.Logger;
-
-// Log a data processing activity
-Logger.logDataProcessing("User login", Map.of("userId", "user123"));
-
-// Retrieve logs
-List<LogEntry> logs = Logger.getLogs(Map.of("userId", "user123"));
-System.out.println(logs);
-
-// Configure secure log storage
-Logger.secureLogStorage(Map.of("encryption", true));
+For consent strategies:
+```js
+const ConsentForm = require('./src/consent/ConsentForm');
+ConsentForm.registerStrategy('consoleLog', (userId, preferences, options) => {
+  console.log(`Consent for ${userId}:`, preferences);
+});
 ```
 
-## Helpers
+---
 
-All main features are accessible via the primary API modules for consent, DSAR, anonymization, and logging. There are no additional helper utilities at this time.
+## Advanced Usage
 
-## Examples
+### Browser Support
 
-The following section provides guidance on integrating the Privacy Compliance library into real-world applications, with references to both JavaScript and Java usage patterns.
+To use in the browser, bundle with Webpack, Browserify, or Parcel. Node.js-only modules (e.g., `fs`) are not available in the browser. For persistent storage in the browser, implement your own (e.g., `localStorage`).
 
-See the Quick Start section above for basic usage in both JavaScript and Java. For more detailed integration examples:
+#### Example: Bundling with Webpack
+1. Install dependencies:
+   ```sh
+   npm install --save-dev webpack webpack-cli path-browserify crypto-browserify
+   ```
+2. Create an entry point (e.g., `browserEntry.js`):
+   ```js
+   const ConsentForm = require('./lib/consent/ConsentForm');
+   window.ConsentForm = ConsentForm;
+   ```
+3. Create a `webpack.config.js`:
+   ```js
+   const path = require('path');
+   module.exports = {
+     entry: './browserEntry.js',
+     output: {
+       filename: 'consentForm.bundle.js',
+       path: path.resolve(__dirname, 'dist'),
+     },
+     resolve: {
+       fallback: {
+         fs: false,
+         path: require.resolve('path-browserify'),
+         crypto: require.resolve('crypto-browserify'),
+       },
+     },
+   };
+   ```
+4. Build the bundle:
+   ```sh
+   npx webpack
+   ```
+5. Include in your HTML:
+   ```html
+   <script src="dist/consentForm.bundle.js"></script>
+   <script>
+     ConsentForm.showDefaultConsentForm().then(...);
+   </script>
+   ```
 
-- **JavaScript:**
-  - Integrate with Express.js routes to manage consent and DSARs.
-- **Java:**
-  - Integrate with Spring Boot controllers for backend consent and DSAR management.
+---
 
-Refer to the documentation and source code for additional examples and advanced usage patterns.
+## Data Storage & Security
+
+- **Logs, audit trails, and breach logs** are stored in the `data/` directory as JSON files.
+- For secure log storage, use `secureLogStorage({ encryption: true })`.
+- In browser environments, implement your own storage (e.g., `localStorage`).
+
+---
+
+## Consent UI Integration Details
+
+The `ConsentForm.showConsentForm` method is a placeholder and does not display any UI or call the provided callbacks. To collect real user consent, implement your own UI and call the `onAccept` or `onReject` callbacks based on user action.
+
+**Web Example:**
+```js
+showConsentForm(onAccept, onReject) {
+  // Display your modal or popup here
+  // If user clicks accept: onAccept();
+  // If user clicks reject: onReject();
+}
+```
+
+**CLI Example:**
+```js
+showConsentForm(onAccept, onReject) {
+  const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout });
+  readline.question('Do you accept? (y/n): ', answer => {
+    if (answer.toLowerCase() === 'y') onAccept();
+    else onReject();
+    readline.close();
+  });
+}
+```
+
+The library also provides a default UI for both web and CLI environments:
+```js
+const ConsentForm = require('./src/consent/ConsentForm');
+ConsentForm.showDefaultConsentForm().then(accepted => {
+  if (accepted) {
+    // User accepted
+  } else {
+    // User rejected
+  }
+});
+```
+
+---
 
 ## Contributing
 
 Contributions, issues, and suggestions are welcome! Please open an issue or submit a pull request via GitHub. For major changes, please discuss them first to ensure alignment with the project goals.
 
+---
+
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Project Structure (Appendix)
+
+- `src/` — Main entry points (e.g., API/server code)
+- `lib/` — Core library modules (consent, anonymization, dsar, logging, errors)
+- `config/` — Configuration files (`config.js`, `testConfig.js`)
+- `examples/` — Example usage scripts
+- `data/` — Runtime or persistent data (JSON logs, audit, breach logs)
+- `tests/` — All test files (unit and integration)
+- `docs/` — Documentation and project management files
+- `node_modules/` — Installed dependencies
+- `.git/`, `.gitignore` — Git version control
+- `README.md`, `CONTRIBUTING.md`, `LICENSE` — Project documentation and license

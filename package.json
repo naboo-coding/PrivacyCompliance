@@ -8,14 +8,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "set PRIVACY_KEY=12345678901234567890123456789012&& jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/naboo-coding/PrivacyCompliance.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nabo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/naboo-coding/PrivacyCompliance/issues"
@@ -23,5 +23,10 @@
   "homepage": "https://github.com/naboo-coding/PrivacyCompliance#readme",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
   }
 }
