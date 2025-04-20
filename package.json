@@ -1,0 +1,27 @@
+{
+  "name": "privacycompliance",
+  "version": "1.0.0",
+  "description": "```js\r import { showConsentForm, storeConsent, getConsentStatus } from './src/consent/ConsentForm';",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naboo-coding/PrivacyCompliance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naboo-coding/PrivacyCompliance/issues"
+  },
+  "homepage": "https://github.com/naboo-coding/PrivacyCompliance#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
