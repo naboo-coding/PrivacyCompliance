@@ -1,11 +1,11 @@
 # Privacy Compliance Library
-
-A JavaScript library for managing privacy compliance, including user consent, DSAR handling, data anonymization, audit logging, breach notification, and extensible strategies, suitable for both Node.js and browser environments.
-
 <p align="left">
   <a href="https://www.npmjs.com/package/privacy-lib"><img src="https://img.shields.io/npm/v/privacy-lib.svg?style=flat-square" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
 </p>
+
+A JavaScript library for managing privacy compliance, including user consent, DSAR handling, data anonymization, audit logging, breach notification, and extensible strategies, suitable for both Node.js and browser environments.
+
 
 > **⚠️ DISCLAIMER:**
 > This library is provided for educational and compliance support purposes only. It does not constitute legal advice. The authors are not responsible for any misuse or failure to comply with applicable privacy laws and regulations. Always consult with a qualified legal professional for compliance matters.
