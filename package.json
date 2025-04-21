@@ -1,6 +1,6 @@
 {
-  "name": "privacycompliance",
-  "version": "2.0.0",
+  "name": "privacycompliancelibrary",
+  "version": "1.0.0",
   "description": "```js\r import { showConsentForm, storeConsent, getConsentStatus } from './src/consent/ConsentForm';",
   "main": "index.js",
   "directories": {
