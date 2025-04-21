@@ -73,6 +73,34 @@ console.log(logs);
 
 The `showConsentForm` method is a placeholder. You must implement your own UI and call the provided callbacks. For a web app, display a modal or popup; for CLI, prompt in the terminal. See [Consent UI Integration Details](#consent-ui-integration-details) for more.
 
+#### Customizing the Consent Form UI at Runtime
+
+You can override the default consent form UI at runtime by registering your own UI handler. Use `ConsentForm.setCustomUI(fn)` to provide a function that receives `onAccept` and `onReject` callbacks. This allows you to fully control the UI and user experience:
+
+```js
+const ConsentForm = require('./lib/consent/ConsentForm');
+
+// Register a custom UI handler
+ConsentForm.setCustomUI((onAccept, onReject) => {
+  // Your custom UI logic here (e.g., show a custom modal, use a different prompt, etc.)
+  // Call onAccept() if the user accepts, or onReject() if the user rejects
+  if (window && window.confirm('Do you accept our terms?')) {
+    onAccept();
+  } else {
+    onReject();
+  }
+});
+
+// Later, when you want to show the consent form:
+const form = new ConsentForm();
+form.showConsentForm(
+  () => console.log('User accepted!'),
+  () => console.log('User rejected!')
+);
+```
+
+If no custom UI is registered, the library will use the default modal (web) or prompt (CLI).
+
 ### Example Scripts
 
 - `examples/realDeveloperExample.js`: Comprehensive usage (consent, DSAR, anonymization)
@@ -281,7 +309,6 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - `examples/` — Example usage scripts
 - `data/` — Runtime or persistent data (JSON logs, audit, breach logs)
 - `tests/` — All test files (unit and integration)
-- `docs/` — Documentation and project management files
 - `node_modules/` — Installed dependencies
 - `.git/`, `.gitignore` — Git version control
 - `README.md`, `CONTRIBUTING.md`, `LICENSE` — Project documentation and license

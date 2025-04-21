@@ -13,6 +13,9 @@ describe('DSARManager Module', () => {
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir);
     }
+    if (fs.existsSync(USERS_PATH)) {
+      fs.unlinkSync(USERS_PATH);
+    }
     fs.writeFileSync(USERS_PATH, encrypt('{}'), 'utf8');
   });
 

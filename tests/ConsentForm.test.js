@@ -1,9 +1,16 @@
 const ConsentForm = require('../lib/consent/ConsentForm');
+const fs = require('fs');
+const path = require('path');
+const CONSENTS_PATH = path.join(__dirname, '../data/consents.json');
 
 describe('ConsentForm Module', () => {
   let consent;
   beforeEach(() => {
     consent = new ConsentForm();
+    // Clear the consents file before each test
+    if (fs.existsSync(CONSENTS_PATH)) {
+      fs.unlinkSync(CONSENTS_PATH);
+    }
   });
 
   test('showConsentForm should be a function', () => {
@@ -59,6 +66,24 @@ describe('ConsentForm Module', () => {
 
   test('getConsentStatus should return false for non-existent user or purpose', async () => {
     expect(await consent.getConsentStatus('ghost', 'none')).toBe(false);
+  });
+
+  test('setCustomUI should override the default UI and call the correct callback', done => {
+    let called = '';
+    ConsentForm.setCustomUI((onAccept, onReject) => {
+      called = 'custom';
+      onAccept();
+    });
+    const form = new ConsentForm();
+    form.showConsentForm(
+      () => {
+        expect(called).toBe('custom');
+        done();
+      },
+      () => {
+        throw new Error('Should not call onReject');
+      }
+    );
   });
 
   // Add more specific tests as implementation details are available

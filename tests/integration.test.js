@@ -2,8 +2,23 @@ const ConsentForm = require('../lib/consent/ConsentForm');
 const DSARManager = require('../lib/dsar/DSARManager');
 const Anonymizer = require('../lib/anonymization/Anonymizer');
 const Logger = require('../lib/logging/Logger');
+const fs = require('fs');
+const path = require('path');
+const CONSENTS_PATH = path.join(__dirname, '../data/consents.json');
+const USERS_PATH = path.join(__dirname, '../data/dsar_users.json');
+const DSAR_LOGS_PATH = path.join(__dirname, '../data/dsar_logs.json');
+const LOGS_PATH = path.join(__dirname, '../data/logs.json');
 
 describe('Integration Test: Privacy Compliance Modules', () => {
+  beforeEach(() => {
+    // Clear all relevant data files before each test
+    [CONSENTS_PATH, USERS_PATH, DSAR_LOGS_PATH, LOGS_PATH].forEach(file => {
+      if (fs.existsSync(file)) {
+        fs.unlinkSync(file);
+      }
+    });
+  });
+
   test('Consent, DSAR, Anonymization, and Logging work together', async () => {
     // Simulate storing consent
     const consent = new ConsentForm();
