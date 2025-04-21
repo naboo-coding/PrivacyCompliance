@@ -1,6 +1,6 @@
 {
   "name": "privacycompliance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "```js\r import { showConsentForm, storeConsent, getConsentStatus } from './src/consent/ConsentForm';",
   "main": "index.js",
   "directories": {
