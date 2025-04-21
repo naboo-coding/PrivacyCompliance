@@ -1,8 +1,0 @@
-If you publish to npm, ensure your package.json includes:
-main and exports fields for entry points.
-types field if you provide TypeScript types (recommended for wider adoption).
-repository, bugs, and homepage fields.
-Consider adding TypeScript type definitions (either inline or via DefinitelyTyped) for better editor support.
-If you use GitHub, add an issue template and pull request template.
-
-Consider moving all core logic to src/ (with subfolders for consent, dsar, etc.) and using lib/ for build outputs or compatibility shims, as is common in some Node.js projects. However, your current structure is also acceptable.
