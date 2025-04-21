@@ -1,10 +1,17 @@
 const Logger = require('../lib/logging/Logger');
+const fs = require('fs');
+const path = require('path');
 
 describe('Logger Module', () => {
   let logger;
   beforeEach(async () => {
     logger = new Logger();
     await logger.clearLogs();
+    // Only remove the log file used by Logger
+    const LOGS_PATH = path.join(__dirname, '../data/logs.json');
+    if (fs.existsSync(LOGS_PATH)) {
+      fs.unlinkSync(LOGS_PATH);
+    }
   });
 
   test('logDataProcessing should be a function', () => {

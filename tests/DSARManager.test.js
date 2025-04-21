@@ -13,10 +13,20 @@ describe('DSARManager Module', () => {
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir);
     }
-    if (fs.existsSync(USERS_PATH)) {
-      fs.unlinkSync(USERS_PATH);
+    // Only remove the DSAR files used by DSARManager
+    const DSAR_USERS_PATH = path.join(__dirname, '../../data/dsar_users.json');
+    const DSAR_LOGS_PATH = path.join(__dirname, '../../data/dsar_logs.json');
+    if (fs.existsSync(DSAR_USERS_PATH)) {
+      fs.unlinkSync(DSAR_USERS_PATH);
     }
-    fs.writeFileSync(USERS_PATH, encrypt('{}'), 'utf8');
+    if (fs.existsSync(DSAR_LOGS_PATH)) {
+      fs.unlinkSync(DSAR_LOGS_PATH);
+    }
+    // Use the async writeJson utility to initialize the file
+    await (async () => {
+      const { writeJson } = require('../lib/dsar/DSARManager');
+      await writeJson(DSAR_USERS_PATH, {});
+    })();
   });
 
   test('requestDataAccess should be a function', () => {
@@ -100,6 +110,8 @@ describe('DSARManager Module', () => {
   test('clearLogs should remove all logs', async () => {
     await dsar.logDSARAction('user7', 'access');
     await dsar.clearLogs();
+    // Wait briefly to ensure all async writes are complete
+    await new Promise(res => setTimeout(res, 50));
     expect((await dsar.getLogs()).length).toBe(0);
   });
 

@@ -57,7 +57,7 @@
     // --- Anonymization Example ---
     const anonymizer = new Anonymizer();
     const originalData = { name: 'Alice', email: 'alice@email.com' };
-    const anonymized = anonymizer.anonymize(originalData);
+    const anonymized = anonymizer.anonymizeField(originalData, 'email', { method: 'mask' });
     console.log('Anonymized data:', anonymized);
     console.log('Anonymization section complete.');
 
