@@ -29,7 +29,7 @@ A JavaScript library for managing privacy compliance, including user consent, DS
 
 Install via npm:
 ```sh
-npm install privacy-lib
+npm i privacycompliancelibrary
 ```
 
 ---
